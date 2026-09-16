@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Salary Management</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    min-height:100vh;
+
+    background:
+    linear-gradient(rgba(15,23,42,.84),rgba(15,23,42,.92)),
+    url("https://images.unsplash.com/photo-1556761175-b413da4baf72?w=1600")
+    center/cover fixed no-repeat;
+
+    color:white;
+}
+
+/* CONTAINER */
+
+.container{
+    width:92%;
+    max-width:1250px;
+    margin:45px auto 60px;
+}
+
+/* HEADER */
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:35px;
+    flex-wrap:wrap;
+    gap:20px;
+}
+
+.header-title h1{
+    font-size:38px;
+    margin-bottom:8px;
+}
+
+.header-title h1 i{
+    color:#38bdf8;
+}
+
+.header-title p{
+    color:#cbd5e1;
+}
+
+.back-btn{
+    text-decoration:none;
+    background:#38bdf8;
+    color:#0f172a;
+    padding:12px 22px;
+    border-radius:10px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.back-btn:hover{
+    background:#0ea5e9;
+    color:white;
+    transform:translateY(-2px);
+}
+
+/* STATS */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+    margin-bottom:35px;
+}
+
+.stat-card{
+    background:rgba(255,255,255,.11);
+    backdrop-filter:blur(15px);
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:18px;
+    padding:25px;
+    display:flex;
+    align-items:center;
+    gap:18px;
+    box-shadow:0 15px 35px rgba(0,0,0,.25);
+    transition:.3s;
+}
+
+.stat-card:hover{
+    transform:translateY(-6px);
+}
+
+.stat-icon{
+    width:60px;
+    height:60px;
+    border-radius:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:25px;
+    background:rgba(56,189,248,.18);
+    color:#38bdf8;
+}
+
+.stat-card h3{
+    font-size:25px;
+}
+
+.stat-card p{
+    color:#cbd5e1;
+    margin-top:4px;
+}
+
+/* MODULES */
+
+.modules{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+    gap:25px;
+}
+
+.card{
+    position:relative;
+    overflow:hidden;
+
+    background:rgba(255,255,255,.11);
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:20px;
+
+    padding:32px;
+
+    text-align:center;
+
+    box-shadow:0 20px 40px rgba(0,0,0,.30);
+
+    transition:.4s;
+}
+
+.card:hover{
+    transform:translateY(-9px);
+    box-shadow:0 25px 50px rgba(56,189,248,.22);
+}
+
+.card-icon{
+    width:80px;
+    height:80px;
+    margin:0 auto 20px;
+
+    border-radius:22px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:35px;
+}
+
+.card h2{
+    margin-bottom:10px;
+    font-size:22px;
+}
+
+.card p{
+    color:#cbd5e1;
+    min-height:45px;
+    margin-bottom:22px;
+}
+
+.card-btn{
+    display:inline-block;
+
+    padding:12px 28px;
+
+    border-radius:10px;
+
+    text-decoration:none;
+
+    font-weight:bold;
+
+    color:#0f172a;
+
+    background:#38bdf8;
+
+    transition:.3s;
+}
+
+.card-btn:hover{
+    background:#0ea5e9;
+    color:white;
+    transform:translateY(-2px);
+}
+
+/* CARD COLORS */
+
+.add .card-icon{
+    background:rgba(34,197,94,.15);
+    color:#22c55e;
+}
+
+.view .card-icon{
+    background:rgba(56,189,248,.15);
+    color:#38bdf8;
+}
+
+.update .card-icon{
+    background:rgba(245,158,11,.15);
+    color:#f59e0b;
+}
+
+.delete .card-icon{
+    background:rgba(239,68,68,.15);
+    color:#ef4444;
+}
+
+.search .card-icon{
+    background:rgba(168,85,247,.15);
+    color:#a855f7;
+}
+
+/* FOOTER */
+
+.footer{
+    text-align:center;
+    color:#94a3b8;
+    padding:30px 10px 10px;
+    font-size:14px;
+}
+
+.footer i{
+    color:#38bdf8;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:700px){
+
+    .container{
+        width:94%;
+        margin-top:30px;
+    }
+
+    .header{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .header-title h1{
+        font-size:30px;
+    }
+
+    .back-btn{
+        align-self:flex-start;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- HEADER -->
+
+<div class="header">
+
+<div class="header-title">
+
+<h1>
+<i class="fa-solid fa-money-bill-wave"></i>
+Salary Management
+</h1>
+
+<p>Manage employee salaries, bonuses and deductions</p>
+
+</div>
+
+<a href="{% url 'admin_home' %}" class="back-btn">
+
+<i class="fa-solid fa-arrow-left"></i>
+Back to Dashboard
+
+</a>
+
+</div>
+
+
+<!-- STATISTICS -->
+
+<div class="stats">
+
+<div class="stat-card">
+
+<div class="stat-icon">
+<i class="fa-solid fa-users"></i>
+</div>
+
+<div>
+
+<h3>{{ salaries|length }}</h3>
+
+<p>Total Salary Records</p>
+
+</div>
+
+</div>
+
+
+<div class="stat-card">
+
+<div class="stat-icon">
+<i class="fa-solid fa-indian-rupee-sign"></i>
+</div>
+
+<div>
+
+<h3>₹</h3>
+
+<p>Salary Management</p>
+
+</div>
+
+</div>
+
+
+<div class="stat-card">
+
+<div class="stat-icon">
+<i class="fa-solid fa-chart-line"></i>
+</div>
+
+<div>
+
+<h3>Active</h3>
+
+<p>Payroll System</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- MODULE CARDS -->
+
+<div class="modules">
+
+
+<!-- ADD -->
+
+<div class="card add">
+
+<div class="card-icon">
+
+<i class="fa-solid fa-circle-plus"></i>
+
+</div>
+
+<h2>Add Salary</h2>
+
+<p>
+Add salary, bonus and deduction for an employee.
+</p>
+
+<a href="{% url 'add_salary' %}" class="card-btn">
+
+<i class="fa-solid fa-plus"></i>
+&nbsp; Add Salary
+
+</a>
+
+</div>
+
+
+<!-- VIEW -->
+
+<div class="card view">
+
+<div class="card-icon">
+
+<i class="fa-solid fa-table-list"></i>
+
+</div>
+
+<h2>View Salary</h2>
+
+<p>
+View all employee salary records and details.
+</p>
+
+<a href="{% url 'view_salary' %}" class="card-btn">
+
+<i class="fa-solid fa-eye"></i>
+&nbsp; View Salary
+
+</a>
+
+</div>
+
+
+<!-- UPDATE -->
+
+<div class="card update">
+
+<div class="card-icon">
+
+<i class="fa-solid fa-pen-to-square"></i>
+
+</div>
+
+<h2>Update Salary</h2>
+
+<p>
+Update basic salary, bonus and deductions.
+</p>
+
+<a href="{% url 'view_salary' %}" class="card-btn">
+
+<i class="fa-solid fa-pen"></i>
+&nbsp; Update Salary
+
+</a>
+
+</div>
+
+
+<!-- DELETE -->
+
+<div class="card delete">
+
+<div class="card-icon">
+
+<i class="fa-solid fa-trash"></i>
+
+</div>
+
+<h2>Delete Salary</h2>
+
+<p>
+Remove an existing salary record securely.
+</p>
+
+<a href="{% url 'view_salary' %}" class="card-btn">
+
+<i class="fa-solid fa-trash"></i>
+&nbsp; Delete Salary
+
+</a>
+
+</div>
+
+
+<!-- SEARCH -->
+
+<div class="card search">
+
+<div class="card-icon">
+
+<i class="fa-solid fa-magnifying-glass"></i>
+
+</div>
+
+<h2>Search Salary</h2>
+
+<p>
+Search salary records by employee or department.
+</p>
+
+<a href="{% url 'view_salary' %}" class="card-btn">
+
+<i class="fa-solid fa-search"></i>
+&nbsp; Search Salary
+
+</a>
+
+</div>
+
+
+</div>
+
+
+<!-- FOOTER -->
+
+<div class="footer">
+
+<i class="fa-solid fa-shield-halved"></i>
+
+&nbsp; Employee Management System — Admin Payroll
+
+</div>
+
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit Profile</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    background:url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1600") center/cover no-repeat fixed;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:rgba(15,23,42,.75);
+    z-index:-1;
+}
+
+.container{
+    width:450px;
+    max-width:95%;
+    background:rgba(255,255,255,.12);
+    backdrop-filter:blur(15px);
+    border-radius:20px;
+    padding:35px;
+    border:1px solid rgba(255,255,255,.15);
+    box-shadow:0 15px 35px rgba(0,0,0,.4);
+}
+
+.icon{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    background:#38bdf8;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin:auto;
+    font-size:38px;
+    color:#111827;
+    margin-bottom:20px;
+}
+
+h2{
+    color:#fff;
+    text-align:center;
+    margin-bottom:25px;
+    font-size:32px;
+}
+
+.input-group{
+    margin-bottom:18px;
+}
+
+.input-group label{
+    color:#fff;
+    font-weight:600;
+    display:block;
+    margin-bottom:8px;
+}
+
+.input-group input{
+    width:100%;
+    padding:13px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,.2);
+    background:rgba(255,255,255,.08);
+    color:#fff;
+    font-size:15px;
+}
+
+.input-group input:focus{
+    outline:none;
+    border-color:#38bdf8;
+    box-shadow:0 0 10px rgba(56,189,248,.4);
+}
+
+.btn{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:#38bdf8;
+    color:#111827;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn:hover{
+    background:#0ea5e9;
+    color:#fff;
+    transform:translateY(-3px);
+}
+
+.back{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+    background:#38bdf8;
+    color:#111827;
+    text-decoration:none;
+    padding:12px 22px;
+    border-radius:50px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.back:hover{
+    background:#0ea5e9;
+    color:#fff;
+}
+
+@media(max-width:500px){
+
+.container{
+    padding:25px;
+}
+
+h2{
+    font-size:26px;
+}
+
+.back{
+    left:20px;
+    right:20px;
+    text-align:center;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="icon">
+<i class="fa-solid fa-user-pen"></i>
+</div>
+
+<h2>Edit Profile</h2>
+
+<form method="POST">
+
+{% csrf_token %}
+
+<div class="input-group">
+<label>Name</label>
+<input type="text" name="name" value="{{ employee.name }}" required>
+</div>
+
+<div class="input-group">
+<label>Email</label>
+<input type="email" name="email" value="{{ employee.email }}" required>
+</div>
+
+<div class="input-group">
+<label>Department</label>
+<input type="text" name="department" value="{{ employee.department }}" required>
+</div>
+
+<!-- <div class="input-group">
+<label>Salary</label>
+<input type="number" name="salary" value="{{ employee.salary }}" required>
+</div> -->
+
+<div class="input-group">
+<label>Join Date</label>
+<input type="date" name="joindate" value="{{ employee.joindate|date:'Y-m-d' }}" required>
+</div>
+
+<div class="input-group">
+<label>Phone</label>
+<input type="text" name="phone" value="{{ employee.phone }}" required>
+</div>
+
+<button type="submit" class="btn">
+<i class="fa-solid fa-floppy-disk"></i>
+ Update Profile
+</button>
+
+</form>
+
+</div>
+
+<a href="" class="back">
+<i class="fa-solid fa-arrow-left"></i> Back
+</a>
+
+</body>
+</html>

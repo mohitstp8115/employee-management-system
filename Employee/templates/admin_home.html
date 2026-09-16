@@ -1,0 +1,393 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1600") center/cover no-repeat fixed;
+min-height:100vh;
+}
+
+body::before{
+content:"";
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(10,15,30,.82);
+z-index:-1;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 70px;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(10px);
+}
+
+.logo{
+font-size:35px;
+font-weight:bold;
+color:white;
+}
+
+.right{
+display:flex;
+align-items:center;
+gap:20px;
+}
+
+.time{
+color:white;
+font-size:17px;
+}
+
+.logout{
+background:#0ea5e9;
+padding:12px 22px;
+border-radius:10px;
+color:white;
+text-decoration:none;
+font-weight:bold;
+transition:.3s;
+}
+
+.logout:hover{
+background:#0284c7;
+}
+
+.welcome{
+width:90%;
+margin:35px auto;
+background:rgba(255,255,255,.10);
+backdrop-filter:blur(12px);
+padding:25px;
+border-radius:20px;
+color:white;
+}
+
+.welcome h1{
+font-size:38px;
+margin-bottom:10px;
+}
+
+.welcome p{
+color:#ddd;
+font-size:18px;
+}
+
+.cards{
+width:90%;
+margin:auto;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:30px;
+padding-bottom:50px;
+}
+
+.card{
+background:rgba(255,255,255,.10);
+backdrop-filter:blur(12px);
+border-radius:20px;
+padding:35px;
+text-align:center;
+transition:.4s;
+box-shadow:0 10px 30px rgba(0,0,0,.35);
+}
+
+.card:hover{
+transform:translateY(-10px);
+box-shadow:0 20px 40px rgba(14,165,233,.4);
+}
+
+.card i{
+font-size:55px;
+color:#38bdf8;
+margin-bottom:20px;
+}
+
+.card h2{
+color:white;
+margin-bottom:12px;
+}
+
+.card p{
+color:#d1d5db;
+font-size:15px;
+margin-bottom:20px;
+}
+
+.btn{
+display:inline-block;
+padding:12px 28px;
+background:#38bdf8;
+color:#0f172a;
+text-decoration:none;
+border-radius:10px;
+font-weight:bold;
+transition:.3s;
+}
+
+.btn:hover{
+background:#0ea5e9;
+color:white;
+}
+/* ========= PREMIUM EFFECTS ========= */
+
+.card{
+    border:1px solid rgba(255,255,255,.15);
+    overflow:hidden;
+    position:relative;
+}
+
+.card::before{
+    content:"";
+    position:absolute;
+    top:-100%;
+    left:-100%;
+    width:250%;
+    height:250%;
+    background:linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,.18),
+        transparent
+    );
+    transform:rotate(25deg);
+    transition:.8s;
+}
+
+.card:hover::before{
+    left:100%;
+}
+
+.card:hover i{
+    transform:scale(1.15) rotate(8deg);
+    transition:.4s;
+}
+
+.card i{
+    transition:.4s;
+}
+
+.btn{
+    box-shadow:0 0 18px rgba(56,189,248,.35);
+}
+
+.btn:hover{
+    box-shadow:0 0 30px rgba(56,189,248,.7);
+}
+
+.logo i{
+    color:#38bdf8;
+    margin-right:10px;
+}
+
+header{
+    position:sticky;
+    top:0;
+    z-index:999;
+}
+
+.welcome{
+    border-left:5px solid #38bdf8;
+}
+
+::-webkit-scrollbar{
+    width:10px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#38bdf8;
+    border-radius:20px;
+}
+
+::-webkit-scrollbar-track{
+    background:#111827;
+}
+
+@media(max-width:768px){
+
+header{
+    flex-direction:column;
+    gap:15px;
+    padding:20px;
+}
+
+.welcome h1{
+    font-size:28px;
+}
+
+.logo{
+    font-size:28px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+<i class="fa-solid fa-user-shield"></i>
+ Admin Dashboard
+</div>
+
+<div class="right">
+
+<div class="time" id="clock"></div>
+
+<a href="{% url 'logout_admin' %}" class="logout">
+<i class="fa-solid fa-right-from-bracket"></i>
+ Logout
+</a>
+
+</div>
+
+</header>
+
+<div class="welcome">
+
+<h1>Welcome Admin 👋</h1>
+
+<p>
+Manage Employees, Salary, Attendance, Departments and Reports from one dashboard.
+</p>
+
+</div>
+
+<div class="cards">
+
+<div class="card">
+<i class="fa-solid fa-users"></i>
+<h2>Employee Management</h2>
+<p>Add, View, Update & Delete Employees</p>
+<a href="{% url 'employee_management' %}" class="btn">Open</a>
+</div>
+
+<div class="card">
+<i class="fa-solid fa-building"></i>
+<h2>Department</h2>
+<p>Manage Company Departments</p>
+<a href="{% url 'department_management' %}" class="btn">Open</a>
+</div>
+
+<div class="card">
+<i class="fa-solid fa-money-check-dollar"></i>
+<h2>Salary</h2>
+<p>Generate Salary & Payslip</p>
+<a href="{% url 'salary_management' %}" class="btn">Open</a>
+</div>
+
+<div class="card">
+<i class="fa-solid fa-calendar-check"></i>
+<h2>Attendance</h2>
+<p>Employee Attendance Records</p>
+<a href="{% url 'attendance_management' %}" class="btn">Open</a>
+</div>
+
+<div class="card">
+<i class="fa-solid fa-file-signature"></i>
+<h2>Leave Management</h2>
+<p>Approve or Reject Leave Requests</p>
+<a href="{% url 'leave_management' %}" class="btn">Open</a>
+</div>
+
+<div class="card">
+<i class="fa-solid fa-chart-column"></i>
+<h2>Reports</h2>
+<p>Employee & Salary Reports</p>
+<a href="{% url 'reports' %}" class="btn">Open</a>
+</div>
+
+<div class="card">
+<i class="fa-solid fa-user-gear"></i>
+<h2>Profile</h2>
+<p>Manage Admin Profile</p>
+<a href="{% url 'admin_profile' %}" class="btn">Open</a>
+</div>
+
+
+
+
+<div class="card">
+<i class="fa-solid fa-chart-column"></i>
+<h2>Document Management</h2>
+<p>Manage employeee documents </p>
+<a href="{% url 'admin_documents' %}" class="btn">Open</a>
+</div>
+
+<div class="card">
+<i class="fa-solid fa-user-gear"></i>
+<h2>Notifications Management</h2>
+<p>Send Employee notifications</p>
+<a href="{% url 'admin_notifications' %}" class="btn">Open</a>
+</div>
+
+
+
+
+<div class="card">
+<i class="fa-solid fa-gears"></i>
+<h2>Settings</h2>
+<p>System Configuration</p>
+<a href="{% url 'admin_settings' %}" class="btn">Open</a>
+</div>
+
+<div class="card">
+    <i class="fa-solid fa-chart-line"></i>
+    <h2>Performance Management</h2>
+    <p>Manage employee performance</p>
+    
+    <a href="{% url 'performance_management' %}" class="btn">Open</a>
+</div>
+
+<div class="card">
+<i class="fa-solid fa-circle-info"></i>
+<h2>Support Requests</h2>
+<p>Help & Documentation</p>
+<a href="{% url 'support_requests' %}" class="btn">Open</a>
+</div>
+
+</div>
+
+<script>
+
+function updateClock(){
+
+const now=new Date();
+
+document.getElementById("clock").innerHTML=
+now.toLocaleDateString()+" | "+now.toLocaleTimeString();
+
+}
+
+setInterval(updateClock,1000);
+
+updateClock();
+
+</script>
+
+</body>
+</html>

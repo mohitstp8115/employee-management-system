@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Profile</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",sans-serif;
+}
+
+body{
+
+    min-height:100vh;
+
+    background:
+    linear-gradient(
+        rgba(15,23,42,.90),
+        rgba(15,23,42,.97)
+    ),
+    url("https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=1600")
+    center/cover fixed no-repeat;
+
+    color:white;
+}
+
+.container{
+
+    width:94%;
+    max-width:1200px;
+
+    margin:40px auto 60px;
+
+}
+
+
+/* HEADER */
+
+.header{
+
+    display:flex;
+
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:30px;
+
+    gap:20px;
+
+    flex-wrap:wrap;
+
+}
+
+.header h1{
+
+    font-size:34px;
+
+}
+
+.header h1 i{
+
+    color:#38bdf8;
+
+}
+
+.header p{
+
+    color:#cbd5e1;
+
+    margin-top:6px;
+
+}
+
+.back-btn{
+
+    text-decoration:none;
+
+    padding:12px 21px;
+
+    border-radius:11px;
+
+    background:#38bdf8;
+
+    color:#0f172a;
+
+    font-weight:700;
+
+    transition:.3s;
+
+}
+
+.back-btn:hover{
+
+    background:#0ea5e9;
+
+    color:white;
+
+    transform:translateY(-2px);
+
+}
+
+
+/* PROFILE HERO */
+
+.profile-card{
+
+    position:relative;
+
+    overflow:hidden;
+
+    background:rgba(255,255,255,.10);
+
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,.16);
+
+    border-radius:25px;
+
+    padding:35px;
+
+    box-shadow:0 25px 55px rgba(0,0,0,.35);
+
+}
+
+.profile-top{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:25px;
+
+    padding-bottom:30px;
+
+    border-bottom:1px solid rgba(255,255,255,.10);
+
+}
+
+
+/* AVATAR */
+
+.avatar{
+
+    width:105px;
+    height:105px;
+
+    flex-shrink:0;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:
+    linear-gradient(
+        135deg,
+        #38bdf8,
+        #6366f1
+    );
+
+    border:4px solid rgba(255,255,255,.20);
+
+    box-shadow:
+    0 12px 30px rgba(0,0,0,.30);
+
+    font-size:42px;
+
+    color:white;
+
+}
+
+.profile-info h2{
+
+    font-size:30px;
+
+    margin-bottom:7px;
+
+}
+
+.profile-info p{
+
+    color:#cbd5e1;
+
+    margin-bottom:12px;
+
+}
+
+.admin-badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:7px;
+
+    padding:7px 13px;
+
+    border-radius:20px;
+
+    background:rgba(56,189,248,.14);
+
+    color:#38bdf8;
+
+    font-size:13px;
+
+    font-weight:700;
+
+}
+
+
+/* STATUS */
+
+.account-status{
+
+    margin-left:auto;
+
+    text-align:center;
+
+}
+
+.status-dot{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:7px;
+
+    padding:8px 14px;
+
+    border-radius:20px;
+
+    background:rgba(34,197,94,.13);
+
+    color:#4ade80;
+
+    font-size:13px;
+
+    font-weight:bold;
+
+}
+
+
+/* DETAILS */
+
+.details{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(2,1fr);
+
+    gap:18px;
+
+    margin-top:30px;
+
+}
+
+.detail-box{
+
+    padding:20px;
+
+    border-radius:16px;
+
+    background:rgba(255,255,255,.06);
+
+    border:1px solid rgba(255,255,255,.09);
+
+    transition:.3s;
+
+}
+
+.detail-box:hover{
+
+    background:rgba(255,255,255,.09);
+
+    transform:translateY(-2px);
+
+}
+
+.detail-icon{
+
+    width:43px;
+    height:43px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:12px;
+
+    background:rgba(56,189,248,.13);
+
+    color:#38bdf8;
+
+    margin-bottom:13px;
+
+    font-size:18px;
+
+}
+
+.detail-box span{
+
+    display:block;
+
+    color:#94a3b8;
+
+    font-size:13px;
+
+    margin-bottom:5px;
+
+}
+
+.detail-box strong{
+
+    color:#f8fafc;
+
+    font-size:16px;
+
+}
+
+
+/* ACTIONS */
+
+.actions{
+
+    display:flex;
+
+    gap:13px;
+
+    margin-top:28px;
+
+    flex-wrap:wrap;
+
+}
+
+.action-btn{
+
+    padding:13px 20px;
+
+    border-radius:11px;
+
+    text-decoration:none;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.edit-btn{
+
+    background:#38bdf8;
+
+    color:#0f172a;
+
+}
+
+.edit-btn:hover{
+
+    background:#0ea5e9;
+
+    color:white;
+
+    transform:translateY(-2px);
+
+}
+
+.password-btn{
+
+    background:rgba(255,255,255,.10);
+
+    color:white;
+
+    border:1px solid rgba(255,255,255,.16);
+
+}
+
+.password-btn:hover{
+
+    background:rgba(255,255,255,.18);
+
+    transform:translateY(-2px);
+
+}
+
+
+/* SECURITY */
+
+.security{
+
+    margin-top:25px;
+
+    padding:22px;
+
+    border-radius:17px;
+
+    background:rgba(56,189,248,.07);
+
+    border:1px solid rgba(56,189,248,.14);
+
+}
+
+.security h3{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:8px;
+
+}
+
+.security h3 i{
+
+    color:#38bdf8;
+
+}
+
+.security p{
+
+    color:#cbd5e1;
+
+    font-size:14px;
+
+    line-height:1.6;
+
+}
+
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+    .container{
+
+        width:94%;
+
+        margin-top:25px;
+
+    }
+
+    .header{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+    }
+
+    .header h1{
+
+        font-size:29px;
+
+    }
+
+    .profile-card{
+
+        padding:25px 20px;
+
+    }
+
+    .profile-top{
+
+        flex-direction:column;
+
+        text-align:center;
+
+    }
+
+    .account-status{
+
+        margin-left:0;
+
+    }
+
+    .details{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .actions{
+
+        flex-direction:column;
+
+    }
+
+    .action-btn{
+
+        text-align:center;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<!-- HEADER -->
+
+<div class="header">
+
+<div>
+
+<h1>
+
+<i class="fa-solid fa-user-shield"></i>
+
+&nbsp; Admin Profile
+
+</h1>
+
+<p>
+
+Manage your administrator account information
+
+</p>
+
+</div>
+
+
+<a
+href="{% url 'admin_home' %}"
+class="back-btn">
+
+<i class="fa-solid fa-arrow-left"></i>
+
+&nbsp; Dashboard
+
+</a>
+
+</div>
+
+
+<!-- PROFILE -->
+
+<div class="profile-card">
+
+
+<!-- PROFILE TOP -->
+
+<div class="profile-top">
+
+
+<div class="avatar">
+
+<i class="fa-solid fa-user-tie"></i>
+
+</div>
+
+
+<div class="profile-info">
+
+<h2>
+
+{% if request.user.get_full_name %}
+
+{{ request.user.get_full_name }}
+
+{% else %}
+
+Administrator
+
+{% endif %}
+
+</h2>
+
+<p>
+
+{{ request.user.email|default:"Administrator Account" }}
+
+</p>
+
+
+<span class="admin-badge">
+
+<i class="fa-solid fa-shield-halved"></i>
+
+System Administrator
+
+</span>
+
+</div>
+
+
+<div class="account-status">
+
+<span class="status-dot">
+
+<i class="fa-solid fa-circle"></i>
+
+Active
+
+</span>
+
+</div>
+
+
+</div>
+
+
+<!-- DETAILS -->
+
+<div class="details">
+
+
+<div class="detail-box">
+
+<div class="detail-icon">
+
+<i class="fa-solid fa-user"></i>
+
+</div>
+
+<span>Username</span>
+
+<strong>
+
+{{ request.user.username|default:"admin" }}
+
+</strong>
+
+</div>
+
+
+<div class="detail-box">
+
+<div class="detail-icon">
+
+<i class="fa-solid fa-envelope"></i>
+
+</div>
+
+<span>Email Address</span>
+
+<strong>
+
+{{ request.user.email|default:"Not Available" }}
+
+</strong>
+
+</div>
+
+
+<div class="detail-box">
+
+<div class="detail-icon">
+
+<i class="fa-solid fa-user-shield"></i>
+
+</div>
+
+<span>Account Role</span>
+
+<strong>
+
+Administrator
+
+</strong>
+
+</div>
+
+
+<div class="detail-box">
+
+<div class="detail-icon">
+
+<i class="fa-solid fa-calendar-check"></i>
+
+</div>
+
+<span>Account Status</span>
+
+<strong>
+
+Active
+
+</strong>
+
+</div>
+
+
+</div>
+
+
+<!-- ACTIONS -->
+
+<div class="actions">
+
+
+<a
+href="{% url 'edit_admin_profile' %}"
+class="action-btn edit-btn">
+
+<i class="fa-solid fa-pen"></i>
+
+&nbsp; Edit Profile
+
+</a>
+
+
+<a
+href="{% url 'change_admin_password' %}"
+class="action-btn password-btn">
+
+<i class="fa-solid fa-key"></i>
+
+&nbsp; Change Password
+
+</a>
+
+
+</div>
+
+
+<!-- SECURITY -->
+
+<div class="security">
+
+<h3>
+
+<i class="fa-solid fa-lock"></i>
+
+Account Security
+
+</h3>
+
+<p>
+
+Your administrator account has access to employee,
+department, salary, attendance and leave management.
+Keep your login credentials secure.
+
+</p>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+</body>
+
+</html>

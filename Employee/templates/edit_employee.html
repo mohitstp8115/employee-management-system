@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Edit Employee</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1600") center/cover no-repeat fixed;
+min-height:100vh;
+}
+
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:rgba(15,23,42,.82);
+z-index:-1;
+}
+
+.container{
+width:100%;
+display:flex;
+justify-content:center;
+padding:120px 20px 60px;
+}
+
+.card{
+
+width:750px;
+background:rgba(255,255,255,.12);
+backdrop-filter:blur(18px);
+border-radius:20px;
+padding:35px;
+border:1px solid rgba(255,255,255,.15);
+box-shadow:0 20px 45px rgba(0,0,0,.45);
+
+}
+
+.title{
+text-align:center;
+margin-bottom:35px;
+}
+
+.title i{
+font-size:55px;
+color:#38bdf8;
+margin-bottom:15px;
+}
+
+.title h2{
+color:white;
+font-size:34px;
+margin-bottom:8px;
+}
+
+.title p{
+color:#cbd5e1;
+}
+
+.form-group{
+margin-bottom:20px;
+}
+
+.form-group label{
+display:block;
+margin-bottom:8px;
+color:white;
+font-weight:600;
+}
+
+.input-box{
+position:relative;
+}
+
+.input-box i{
+position:absolute;
+left:15px;
+top:50%;
+transform:translateY(-50%);
+color:#38bdf8;
+}
+
+.input-box input{
+
+width:100%;
+padding:14px 15px 14px 45px;
+border:none;
+outline:none;
+border-radius:10px;
+background:rgba(255,255,255,.10);
+color:white;
+font-size:15px;
+
+}
+
+.input-box input:focus{
+
+border:1px solid #38bdf8;
+box-shadow:0 0 12px rgba(56,189,248,.5);
+
+}
+
+.row{
+
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+
+}
+
+@media(max-width:768px){
+
+.row{
+
+grid-template-columns:1fr;
+
+}
+
+.card{
+
+width:100%;
+
+}
+
+}
+.btn{
+    background:#38bdf8;
+    color:#0f172a;
+    border:none;
+    padding:14px 30px;
+    border-radius:10px;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn:hover{
+    background:#0ea5e9;
+    color:white;
+    transform:translateY(-3px);
+}
+
+.back-btn{
+    background:#64748b;
+    color:white;
+    text-decoration:none;
+    padding:14px 30px;
+    border-radius:10px;
+    font-size:17px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.back-btn:hover{
+    background:#475569;
+    transform:translateY(-3px);
+}
+</style>
+
+</head>
+
+<body>
+
+
+
+<div class="container">
+
+<div class="card">
+
+<div class="title">
+
+<i class="fa-solid fa-user-pen"></i>
+
+<h2>Edit Employee</h2>
+
+<p>Update Employee Information</p>
+
+</div>
+
+<form method="POST">
+
+{% csrf_token %}
+
+<div class="row">
+
+<div class="form-group">
+<label>Full Name</label>
+<div class="input-box">
+<i class="fa-solid fa-user"></i>
+<input type="text" name="name" value="{{  employee.name }}" required>
+</div>
+</div>
+
+<div class="form-group">
+<label>Email</label>
+<div class="input-box">
+<i class="fa-solid fa-envelope"></i>
+<input type="email" name="email" value="{{  employee.email }}" required>
+</div>
+</div>
+
+</div>
+
+
+<div class="row">
+
+<div class="form-group">
+<label>Username</label>
+<div class="input-box">
+<i class="fa-solid fa-id-card"></i>
+<input type="text" name="username" value="{{  employee.username }}" required>
+</div>
+</div>
+
+<div class="form-group">
+<label>Department</label>
+<div class="input-box">
+<i class="fa-solid fa-building"></i>
+<input type="text" name="department" value="{{  employee.department }}" required>
+</div>
+</div>
+
+</div>
+
+
+<div class="row">
+
+<div class="form-group">
+<label>Salary</label>
+<div class="input-box">
+<i class="fa-solid fa-indian-rupee-sign"></i>
+<input type="number" name="salary" value="{{ salary.basic_salary }}" required>
+</div>
+</div>
+
+<div class="form-group">
+<label>Join Date</label>
+<div class="input-box">
+<i class="fa-solid fa-calendar"></i>
+<input type="date" name="joindate" value="{{ employee.joindate|date:'Y-m-d' }}" required>
+</div>
+</div>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Phone Number</label>
+
+<div class="input-box">
+
+<i class="fa-solid fa-phone"></i>
+
+<input type="text"
+name="phone"
+value="{{ employee.phone }}"
+required>
+
+</div>
+
+</div>
+
+<div style="display:flex;justify-content:center;gap:20px;margin-top:30px;flex-wrap:wrap;">
+
+    <button type="submit" class="btn">
+        <i class="fa-solid fa-floppy-disk"></i>
+        Update Employee
+    </button>
+
+    <a href="{% url 'view_employee' %}" class="back-btn">
+        <i class="fa-solid fa-arrow-left"></i>
+        Back
+    </a>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+
+
+</body>
+</html>

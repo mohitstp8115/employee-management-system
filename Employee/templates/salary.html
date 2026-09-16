@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salary Details</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f7fc;
+}
+
+.container{
+    width:500px;
+    margin:50px auto;
+}
+
+.card{
+    background:#fff;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
+}
+
+.header{
+    background:#0d6efd;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
+.header h2{
+    font-size:28px;
+}
+
+.details{
+    padding:25px;
+}
+
+.row{
+    display:flex;
+    justify-content:space-between;
+    padding:12px 0;
+    border-bottom:1px solid #ddd;
+}
+
+.row:last-child{
+    border:none;
+}
+
+.total{
+    background:#198754;
+    color:white;
+    font-size:20px;
+    font-weight:bold;
+    padding:18px;
+    text-align:center;
+}
+
+.btn{
+    display:block;
+    width:90%;
+    margin:20px auto;
+    padding:12px;
+    background:#0d6efd;
+    color:white;
+    text-decoration:none;
+    text-align:center;
+    border-radius:8px;
+    font-size:18px;
+}
+
+.btn:hover{
+    background:#084298;
+}
+
+.no-record{
+    text-align:center;
+    margin-top:100px;
+    color:red;
+    font-size:25px;
+}
+</style>
+</head>
+
+<body>
+
+{% if salary %}
+
+<div class="container">
+
+<div class="card">
+
+<div class="header">
+<h2>Salary Details</h2>
+</div>
+
+<div class="details">
+
+<div class="row">
+<span>Employee</span>
+<span>{{ salary.employee.name }}</span>
+</div>
+
+<div class="row">
+<span>Department</span>
+<span>{{ salary.employee.department }}</span>
+</div>
+
+<div class="row">
+<span>Basic Salary</span>
+<span>₹ {{ salary.basic_salary }}</span>
+</div>
+
+<div class="row">
+<span>Bonus</span>
+<span>₹ {{ salary.bonus }}</span>
+</div>
+
+<div class="row">
+<span>Deduction</span>
+<span>₹ {{ salary.deduction }}</span>
+</div>
+
+</div>
+
+<div class="total">
+Total Salary : ₹ {{ salary.total_salary }}
+</div>
+
+<a href="{% url 'download_payslip' %}" class="btn">
+    Download Payslip
+</a>
+
+</div>
+
+</div>
+
+{% else %}
+
+<div class="no-record">
+No Salary Record Found
+</div>
+
+{% endif %}
+
+</body>
+</html>

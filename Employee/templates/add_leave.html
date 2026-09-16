@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Add Leave</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+
+    min-height:100vh;
+
+    background:
+    linear-gradient(
+        rgba(15,23,42,.86),
+        rgba(15,23,42,.95)
+    ),
+    url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1600")
+    center/cover fixed no-repeat;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:40px 20px;
+
+}
+
+.leave-card{
+
+    width:750px;
+    max-width:100%;
+
+    background:rgba(255,255,255,.11);
+
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.18);
+
+    border-radius:25px;
+
+    padding:40px;
+
+    box-shadow:
+    0 25px 60px rgba(0,0,0,.45);
+
+    animation:showCard .6s ease;
+
+}
+
+
+/* HEADER */
+
+.leave-header{
+
+    text-align:center;
+
+    margin-bottom:35px;
+
+}
+
+.leave-icon{
+
+    width:85px;
+    height:85px;
+
+    margin:0 auto 18px;
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:linear-gradient(
+        135deg,
+        #38bdf8,
+        #2563eb
+    );
+
+    color:white;
+
+    font-size:38px;
+
+    box-shadow:
+    0 0 30px rgba(56,189,248,.35);
+
+}
+
+.leave-header h1{
+
+    color:white;
+
+    font-size:32px;
+
+    margin-bottom:8px;
+
+}
+
+.leave-header p{
+
+    color:#cbd5e1;
+
+}
+
+
+/* FORM */
+
+.form-group{
+
+    margin-bottom:21px;
+
+}
+
+.form-group label{
+
+    display:block;
+
+    color:white;
+
+    font-weight:600;
+
+    margin-bottom:8px;
+
+}
+
+.input-box{
+
+    position:relative;
+
+}
+
+.input-box i{
+
+    position:absolute;
+
+    left:15px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    color:#38bdf8;
+
+    z-index:2;
+
+}
+
+.input-box input,
+.input-box select,
+.input-box textarea{
+
+    width:100%;
+
+    padding:14px 15px 14px 45px;
+
+    border:none;
+    outline:none;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,.10);
+
+    color:white;
+
+    border:1px solid rgba(255,255,255,.12);
+
+    font-size:15px;
+
+    transition:.3s;
+
+}
+
+.input-box textarea{
+
+    min-height:120px;
+
+    resize:vertical;
+
+}
+
+.input-box input:focus,
+.input-box select:focus,
+.input-box textarea:focus{
+
+    border-color:#38bdf8;
+
+    box-shadow:
+    0 0 15px rgba(56,189,248,.25);
+
+    background:rgba(255,255,255,.15);
+
+}
+
+.input-box input::placeholder,
+.input-box textarea::placeholder{
+
+    color:#cbd5e1;
+
+}
+
+select option{
+
+    background:white;
+
+    color:#111827;
+
+}
+
+
+/* TWO COLUMNS */
+
+.row{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:20px;
+
+}
+
+
+/* STATUS */
+
+.status-box{
+
+    padding:16px;
+
+    margin-bottom:25px;
+
+    border-radius:14px;
+
+    background:rgba(245,158,11,.10);
+
+    border:1px solid rgba(245,158,11,.18);
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.status-box i{
+
+    color:#fbbf24;
+
+    font-size:22px;
+
+}
+
+.status-box strong{
+
+    color:white;
+
+}
+
+.status-box span{
+
+    color:#cbd5e1;
+
+    font-size:14px;
+
+}
+
+
+/* BUTTONS */
+
+.buttons{
+
+    display:flex;
+
+    gap:15px;
+
+    margin-top:30px;
+
+}
+
+.btn{
+
+    flex:1;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:12px;
+
+    text-decoration:none;
+
+    text-align:center;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.save-btn{
+
+    background:#38bdf8;
+
+    color:#0f172a;
+
+}
+
+.save-btn:hover{
+
+    background:#0ea5e9;
+
+    color:white;
+
+    transform:translateY(-2px);
+
+    box-shadow:
+    0 10px 25px rgba(14,165,233,.25);
+
+}
+
+.back-btn{
+
+    background:rgba(255,255,255,.12);
+
+    color:white;
+
+    border:1px solid rgba(255,255,255,.18);
+
+}
+
+.back-btn:hover{
+
+    background:rgba(255,255,255,.20);
+
+    transform:translateY(-2px);
+
+}
+
+
+/* ANIMATION */
+
+@keyframes showCard{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(30px) scale(.97);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0) scale(1);
+
+    }
+
+}
+
+
+/* MOBILE */
+
+@media(max-width:650px){
+
+    .leave-card{
+
+        padding:25px;
+
+    }
+
+    .row{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .buttons{
+
+        flex-direction:column;
+
+    }
+
+    .leave-header h1{
+
+        font-size:27px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<div class="leave-card">
+
+
+<!-- HEADER -->
+
+<div class="leave-header">
+
+<div class="leave-icon">
+
+<i class="fa-solid fa-calendar-plus"></i>
+
+</div>
+
+<h1>Add Employee Leave</h1>
+
+<p>Create and manage an employee leave record</p>
+
+</div>
+
+
+<!-- FORM -->
+
+<form method="POST">
+
+{% csrf_token %}
+
+
+<!-- EMPLOYEE -->
+
+<div class="form-group">
+
+<label>Employee</label>
+
+<div class="input-box">
+
+<i class="fa-solid fa-user"></i>
+
+<select name="employee" required>
+
+<option value="">
+Select Employee
+</option>
+
+{% for employee in employees %}
+
+<option value="{{ employee.id }}">
+
+{{ employee.name }}
+
+</option>
+
+{% endfor %}
+
+</select>
+
+</div>
+
+</div>
+
+
+<!-- LEAVE TYPE -->
+
+<div class="form-group">
+
+<label>Leave Type</label>
+
+<div class="input-box">
+
+<i class="fa-solid fa-list"></i>
+
+<select name="leave_type" required>
+
+<option value="">
+Select Leave Type
+</option>
+
+<option value="Casual Leave">
+Casual Leave
+</option>
+
+<option value="Sick Leave">
+Sick Leave
+</option>
+
+<option value="Earned Leave">
+Earned Leave
+</option>
+
+<option value="Emergency Leave">
+Emergency Leave
+</option>
+
+<option value="Other">
+Other
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<!-- DATES -->
+
+<div class="row">
+
+
+<div class="form-group">
+
+<label>Start Date</label>
+
+<div class="input-box">
+
+<i class="fa-solid fa-calendar-day"></i>
+
+<input
+type="date"
+name="start_date"
+required>
+
+</div>
+
+</div>
+
+
+<div class="form-group">
+
+<label>End Date</label>
+
+<div class="input-box">
+
+<i class="fa-solid fa-calendar-check"></i>
+
+<input
+type="date"
+name="end_date"
+required>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<!-- REASON -->
+
+<div class="form-group">
+
+<label>Reason</label>
+
+<div class="input-box">
+
+<i class="fa-solid fa-comment"></i>
+
+<textarea
+name="reason"
+placeholder="Enter reason for leave..."
+required></textarea>
+
+</div>
+
+</div>
+
+
+<!-- STATUS -->
+
+<div class="status-box">
+
+<i class="fa-solid fa-clock"></i>
+
+<div>
+
+<strong>Status: Pending</strong>
+
+<br>
+
+<span>
+New leave requests are created as Pending.
+</span>
+
+</div>
+
+</div>
+
+
+<!-- BUTTONS -->
+
+<div class="buttons">
+
+
+<button
+type="submit"
+class="btn save-btn">
+
+<i class="fa-solid fa-plus"></i>
+
+&nbsp; Add Leave
+
+</button>
+
+
+<a
+href="{% url 'leave_management' %}"
+class="btn back-btn">
+
+<i class="fa-solid fa-arrow-left"></i>
+
+&nbsp; Back
+
+</a>
+
+
+</div>
+
+
+</form>
+
+
+</div>
+
+
+<script>
+
+/* End date cannot be before start date */
+
+const startDate =
+document.querySelector(
+    'input[name="start_date"]'
+);
+
+const endDate =
+document.querySelector(
+    'input[name="end_date"]'
+);
+
+
+startDate.addEventListener(
+    "change",
+    function(){
+
+        endDate.min = startDate.value;
+
+        if(
+            endDate.value &&
+            endDate.value < startDate.value
+        ){
+
+            endDate.value = "";
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+</html>

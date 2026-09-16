@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Employee</title>
+    <style>
+        *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    background:url("https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=1800&auto=format&fit=crop") center/cover fixed;
+    min-height:100vh;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:rgba(15,23,42,.78);
+    z-index:-1;
+}
+
+h1{
+    background:#111827;
+    color:#fff;
+    padding:22px;
+    text-align:center;
+    box-shadow:0 8px 20px rgba(0,0,0,.35);
+}
+
+.container{
+    width:450px;
+    max-width:92%;
+    margin:50px auto;
+    padding:35px;
+    border-radius:20px;
+    background:rgba(255,255,255,.12);
+    backdrop-filter:blur(15px);
+    border:1px solid rgba(255,255,255,.15);
+    box-shadow:0 15px 35px rgba(0,0,0,.35);
+}
+
+h2{
+    text-align:center;
+    color:#fff;
+    margin-bottom:25px;
+    font-size:32px;
+}
+
+.input-group{
+    margin-bottom:18px;
+}
+
+.input-group span{
+    display:block;
+    color:#fff;
+    margin-bottom:8px;
+    font-weight:600;
+}
+
+input{
+    width:100%;
+    padding:13px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,.2);
+    background:rgba(255,255,255,.08);
+    color:#fff;
+    font-size:15px;
+}
+
+input::placeholder{
+    color:#d1d5db;
+}
+
+input:focus{
+    outline:none;
+    border-color:#38bdf8;
+    box-shadow:0 0 10px rgba(56,189,248,.4);
+}
+
+.btn{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:#38bdf8;
+    color:#111827;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn:hover{
+    background:#0ea5e9;
+    color:#fff;
+    transform:translateY(-3px);
+}
+
+.back{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+    background:#38bdf8;
+    color:#111827;
+    text-decoration:none;
+    padding:14px 24px;
+    border-radius:50px;
+    font-weight:600;
+    box-shadow:0 8px 20px rgba(0,0,0,.3);
+    transition:.3s;
+    z-index:9999;
+}
+
+.back:hover{
+    background:#0ea5e9;
+    color:#fff;
+    transform:translateY(-5px);
+}
+
+@media(max-width:500px){
+
+.container{
+    padding:25px;
+}
+
+h2{
+    font-size:26px;
+}
+
+.back{
+    left:20px;
+    right:20px;
+    text-align:center;
+}
+
+}
+    </style>
+</head>
+<body>
+    {% if messages %}
+    {% for message in messages %}
+        <p style="color:red; text-align:center; font-weight:bold;">
+            {{ message }}
+        </p>
+    {% endfor %}
+    {% endif %}
+    <label>
+        <h1>Add Employee</h1>
+    </label>
+    <div class="container">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h2>Add Employee</h2>
+            <div class="input-group">
+                <span>Employee Name</span>
+                <input type="text" name="name" id="" placeholder="Enter name" required>
+            </div>
+            <div class="input-group">
+                <span>Email id</span>
+                <input type="email" name="email" id="" placeholder="Enter email" required>
+            </div>
+            <div class="input-group">
+                <span>Username</span>
+                <input type="text" name="uname" id="" placeholder="Enter username" required>
+            </div>
+            <div class="input-group">
+                <span>Password</span>
+                <input type="password" name="password" id="" placeholder="Enter password" required>
+            </div>
+            <div class="input-group">
+                <span>Department</span>
+                <input type="text" name="department" id="" placeholder="Enter Your Department" required>
+            </div>
+            <div class="input-group">
+                <span>Salary</span>
+                <input type="number" name="salary" id="" placeholder="Enter Salary" required>
+            </div>
+            <div class="input-group">
+                <span>Join Date</span>
+                <input type="date" name="joindate" id="">
+            </div>
+            <div class="input-group">
+                <span>Phone </span>
+                <input type="tel" name="phone" placeholder="Enter phone number">
+            </div>
+            <div>
+                <button type="submit" class="btn">Save Employee</button>
+            </div>
+        </form>
+    </div>
+    <div> 
+        <a href="{% url 'home' %}" class="back">Back to Dashboard</a>
+    </div>
+</body>
+</html>

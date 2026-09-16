@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    background:url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1600") center/cover no-repeat fixed;
+    min-height:100vh;
+    margin: 0;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:rgba(15,23,42,.78);
+    z-index: -1;
+}
+
+.login-box{
+    position:relative;
+    width:420px;
+    max-width:95%;
+    background:rgba(255,255,255,.12);
+    backdrop-filter:blur(15px);
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:20px;
+    padding:35px;
+    box-shadow:0 20px 45px rgba(0,0,0,.45);
+
+    margin:120px auto 100px auto;
+}
+
+.admin-icon{
+    width:90px;
+    height:90px;
+    margin:auto;
+    border-radius:50%;
+    background:#38bdf8;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:40px;
+    color:#0f172a;
+}
+
+h2{
+    color:#fff;
+    text-align:center;
+    margin:20px 0 8px;
+    font-size:30px;
+}
+
+p{
+    text-align:center;
+    color:#cbd5e1;
+    margin-bottom:25px;
+}
+
+.input-group{
+    margin-bottom:18px;
+}
+
+.input-group label{
+    display:block;
+    color:#fff;
+    margin-bottom:8px;
+    font-weight:600;
+}
+
+.input-box{
+    position:relative;
+}
+
+.input-box i{
+    position:absolute;
+    left:15px;
+    top:50%;
+    transform:translateY(-50%);
+    color:#38bdf8;
+}
+
+.input-box input{
+    width:100%;
+    padding:13px 15px 13px 45px;
+    border:none;
+    outline:none;
+    border-radius:10px;
+    background:rgba(255,255,255,.10);
+    color:white;
+    font-size:15px;
+}
+
+.input-box input::placeholder{
+    color:#ddd;
+}
+
+.input-box input:focus{
+    border:1px solid #38bdf8;
+    box-shadow:0 0 10px rgba(56,189,248,.5);
+}
+
+.btn{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:#38bdf8;
+    color:#0f172a;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn:hover{
+    background:#0ea5e9;
+    color:#fff;
+    transform:translateY(-2px);
+}
+
+.back{
+    position:fixed;
+    bottom:25px;
+    right:25px;
+    text-decoration:none;
+    background:#38bdf8;
+    color:#0f172a;
+    padding:12px 20px;
+    border-radius:50px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.back:hover{
+    background:#0ea5e9;
+    color:#fff;
+}
+
+@media(max-width:500px){
+
+.login-box{
+    padding:25px;
+}
+
+h2{
+    font-size:25px;
+}
+
+.back{
+    right:15px;
+    bottom:15px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+{% include 'navbar.html' %}
+
+<div class="login-box">
+
+<div class="admin-icon">
+<i class="fa-solid fa-user-shield"></i>
+</div>
+
+<h2>Admin Login</h2>
+
+<p>Employee Management System</p>
+
+<form method="POST">
+
+{% csrf_token %}
+
+<div class="input-group">
+<label>Username</label>
+
+<div class="input-box">
+<i class="fa-solid fa-user"></i>
+<input type="text" name="username" placeholder="Enter Admin Username" required>
+</div>
+
+</div>
+
+<div class="input-group">
+<label>Password</label>
+
+<div class="input-box">
+<i class="fa-solid fa-lock"></i>
+<input type="password" name="password" placeholder="Enter Password" required>
+</div>
+
+</div>
+
+<button class="btn" type="submit">
+<i class="fa-solid fa-right-to-bracket"></i>
+ Login
+</button>
+
+</form>
+
+</div>
+{% if error %}
+<p style="color: red;">{{ error }}</p>
+{% endif %}
+
+{% include 'footer.html' %}
+
+<a href="{% url 'home' %}" class="back">
+<i class="fa-solid fa-arrow-left"></i> Back
+</a>
+
+
+
+</body>
+</html>

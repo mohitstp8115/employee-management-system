@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Employee Login</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+body{
+background:url("https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=1800&auto=format&fit=crop") center/cover fixed;
+}
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:rgba(15,23,42,.75);
+z-index:-1;
+}
+.login-form{
+width:400px;
+margin:70px auto;
+padding:40px;
+background:rgba(255,255,255,.12);
+backdrop-filter:blur(15px);
+border:1px solid rgba(255,255,255,.15);
+border-radius:20px;
+box-shadow:0 15px 40px rgba(0,0,0,.4);
+}
+.login-icon{
+width:90px;
+height:90px;
+margin:auto;
+border-radius:50%;
+background:#38bdf8;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:38px;
+color:#111827;
+margin-bottom:20px;
+}
+h2{
+text-align:center;
+color:#fff;
+margin-bottom:25px;
+}
+.input-group{
+margin-bottom:20px;
+}
+.input-group span{
+display:block;
+color:#fff;
+margin-bottom:8px;
+font-weight:bold;
+}
+.input-box{
+position:relative;
+}
+.input-box i{
+position:absolute;
+left:15px;
+top:50%;
+transform:translateY(-50%);
+color:#38bdf8;
+}
+.input-box input{
+width:100%;
+padding:13px 13px 13px 45px;
+background:rgba(255,255,255,.08);
+border:1px solid rgba(255,255,255,.2);
+border-radius:10px;
+color:#fff;
+font-size:15px;
+}
+.input-box input::placeholder{
+color:#ddd;
+}
+.input-box input:focus{
+outline:none;
+border-color:#38bdf8;
+}
+.forgot{
+text-align:right;
+margin-bottom:20px;
+}
+.forgot a{
+color:#38bdf8;
+text-decoration:none;
+}
+.login-btn{
+width:100%;
+padding:14px;
+border:none;
+border-radius:10px;
+background:#38bdf8;
+color:#111827;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+transition:.3s;
+}
+.login-btn:hover{
+background:#0ea5e9;
+color:#fff;
+}
+.links{
+margin-top:20px;
+text-align:center;
+color:#fff;
+}
+.links a{
+color:#38bdf8;
+text-decoration:none;
+font-weight:bold;
+}
+.error{
+margin-top:15px;
+text-align:center;
+color:#ff4d4d;
+font-weight:bold;
+}
+@media(max-width:450px){
+.login-form{
+width:92%;
+padding:30px;
+margin:40px auto;
+}
+}
+</style>
+</head>
+
+<body>
+
+{% include 'navbar.html' %}
+
+<div class="login-form">
+
+<div class="login-icon">
+<i class="fa-solid fa-user-lock"></i>
+</div>
+
+<h2>Employee Login</h2>
+
+<form method="POST">
+
+{% csrf_token %}
+
+<div class="input-group">
+<span><i class="fa-solid fa-user"></i> Username</span>
+
+<div class="input-box">
+<i class="fa-solid fa-user"></i>
+<input type="text" name="username" placeholder="Enter Username" required>
+</div>
+</div>
+
+<div class="input-group">
+<span><i class="fa-solid fa-lock"></i> Password</span>
+
+<div class="input-box">
+<i class="fa-solid fa-lock"></i>
+<input type="password" name="password" placeholder="Enter Password" required>
+</div>
+</div>
+
+<div class="forgot">
+<a href="#">Forgot Password?</a>
+</div>
+
+<button type="submit" class="login-btn">
+<i class="fa-solid fa-right-to-bracket"></i>
+Login
+</button>
+
+</form>
+
+{% if error %}
+<div class="error">
+{{ error }}
+</div>
+{% endif %}
+
+<div class="links">
+Don't have an account?
+<a href="{% url 'register' %}">Register</a>
+</div>
+
+</div>
+
+{% include 'footer.html' %}
+
+</body>
+</html>

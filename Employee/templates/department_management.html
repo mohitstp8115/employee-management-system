@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Department Management</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+
+background:url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1600") center/cover fixed no-repeat;
+min-height:100vh;
+
+}
+
+body::before{
+
+content:"";
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(15,23,42,.82);
+z-index:-1;
+
+}
+
+.container{
+
+width:92%;
+margin:40px auto;
+
+}
+
+.header{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:35px;
+flex-wrap:wrap;
+
+}
+
+.header h1{
+
+color:#fff;
+font-size:38px;
+
+}
+
+.header h1 i{
+
+color:#38bdf8;
+
+}
+
+.back-btn{
+
+background:#38bdf8;
+padding:12px 22px;
+border-radius:10px;
+text-decoration:none;
+font-weight:bold;
+color:#0f172a;
+transition:.3s;
+
+}
+
+.back-btn:hover{
+
+background:#0ea5e9;
+color:#fff;
+
+}
+
+.stats{
+
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+margin-bottom:40px;
+
+}
+
+.stat-card{
+
+background:rgba(255,255,255,.10);
+backdrop-filter:blur(15px);
+border-radius:20px;
+padding:30px;
+text-align:center;
+border:1px solid rgba(255,255,255,.15);
+transition:.4s;
+
+}
+
+.stat-card:hover{
+
+transform:translateY(-8px);
+
+}
+
+.stat-card i{
+
+font-size:45px;
+color:#38bdf8;
+margin-bottom:15px;
+
+}
+
+.stat-card h2{
+
+color:white;
+font-size:35px;
+
+}
+
+.stat-card p{
+
+color:#d1d5db;
+
+}
+
+.modules{
+
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:30px;
+
+}
+
+.card{
+
+background:rgba(255,255,255,.12);
+backdrop-filter:blur(18px);
+padding:35px;
+border-radius:20px;
+text-align:center;
+border:1px solid rgba(255,255,255,.15);
+transition:.4s;
+box-shadow:0 20px 40px rgba(0,0,0,.30);
+
+}
+
+.card:hover{
+
+transform:translateY(-10px);
+
+}
+
+.card i{
+
+font-size:60px;
+margin-bottom:20px;
+
+}
+
+.card h2{
+
+color:white;
+margin-bottom:12px;
+
+}
+
+.card p{
+
+color:#d1d5db;
+margin-bottom:22px;
+
+}
+
+.add i{color:#22c55e;}
+.view i{color:#38bdf8;}
+.update i{color:#f59e0b;}
+.delete i{color:#ef4444;}
+.search i{color:#a855f7;}
+
+.btn{
+
+display:inline-block;
+padding:12px 30px;
+background:#38bdf8;
+color:#0f172a;
+text-decoration:none;
+border-radius:10px;
+font-weight:bold;
+transition:.3s;
+
+}
+
+.btn:hover{
+
+background:#0ea5e9;
+color:white;
+
+}
+@media(max-width:768px){
+
+.header{
+flex-direction:column;
+gap:20px;
+text-align:center;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<h1>
+<i class="fa-solid fa-building"></i>
+Department Management
+</h1>
+
+<a href="{% url 'admin_home' %}" class="back-btn">
+<i class="fa-solid fa-arrow-left"></i>
+Back
+</a>
+
+</div>
+
+<div class="stats">
+
+<div class="stat-card">
+
+<i class="fa-solid fa-building"></i>
+
+<h2>{{ departments|length }}</h2>
+
+<p>Total Departments</p>
+
+</div>
+
+<div class="stat-card">
+
+<i class="fa-solid fa-user-tie"></i>
+
+<h2>10</h2>
+
+<p>Department Heads</p>
+
+</div>
+
+<div class="stat-card">
+
+<i class="fa-solid fa-chart-line"></i>
+
+<h2>Active</h2>
+
+<p>Management Ready</p>
+
+</div>
+
+</div>
+
+<div class="modules">
+
+<!-- Add Department -->
+
+<div class="card add">
+
+<i class="fa-solid fa-circle-plus"></i>
+
+<h2>Add Department</h2>
+
+<p>Create New Department</p>
+
+<a href="{% url 'add_department' %}" class="btn">
+
+Open
+
+</a>
+
+</div>
+
+<!-- View Department -->
+
+<div class="card view">
+
+<i class="fa-solid fa-table"></i>
+
+<h2>View Department</h2>
+
+<p>View All Departments</p>
+
+<a href="{% url 'view_department' %}" class="btn">
+
+Open
+
+</a>
+
+</div>
+
+<!-- Update Department -->
+
+<div class="card update">
+
+<i class="fa-solid fa-pen-to-square"></i>
+
+<h2>Update Department</h2>
+
+<p>Edit Department Details</p>
+
+<a href="{% url 'view_department' %}" class="btn">
+
+Open
+
+</a>
+
+</div>
+
+<!-- Delete Department -->
+
+<div class="card delete">
+
+<i class="fa-solid fa-trash"></i>
+
+<h2>Delete Department</h2>
+
+<p>Remove Department</p>
+
+<a href="{% url 'view_department' %}" class="btn">
+
+Open
+
+</a>
+
+</div>
+
+<!-- Search Department -->
+
+<div class="card search">
+
+<i class="fa-solid fa-magnifying-glass"></i>
+
+<h2>Search Department</h2>
+
+<p>Search by Name or Code</p>
+
+<a href="{% url 'search_department' %}" class="btn">
+
+Open
+
+</a>
+
+</div>
+
+</div>
+<br><br>
+
+<div style="text-align:center;color:white;padding:25px;opacity:.8;">
+
+<i class="fa-solid fa-building"></i>
+
+Employee Management System © 2026
+
+</div>
+
+</div>
+
+<script>
+
+// Card Hover Animation
+
+const cards = document.querySelectorAll(".card");
+
+cards.forEach(card=>{
+
+card.addEventListener("mouseenter",()=>{
+
+card.style.boxShadow="0 25px 50px rgba(56,189,248,.35)";
+
+});
+
+card.addEventListener("mouseleave",()=>{
+
+card.style.boxShadow="0 20px 40px rgba(0,0,0,.30)";
+
+});
+
+});
+
+// Floating Animation
+
+cards.forEach((card,index)=>{
+
+card.style.animation="float 1s ease";
+
+card.style.animationDelay=(index*.15)+"s";
+
+});
+
+</script>
+
+<style>
+
+@keyframes float{
+
+0%{
+
+opacity:0;
+
+transform:translateY(35px);
+
+}
+
+100%{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+.card{
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.card::before{
+
+content:"";
+
+position:absolute;
+
+top:-120%;
+
+left:-120%;
+
+width:260%;
+
+height:260%;
+
+background:linear-gradient(
+
+120deg,
+
+transparent,
+
+rgba(255,255,255,.18),
+
+transparent
+
+);
+
+transform:rotate(25deg);
+
+transition:.8s;
+
+}
+
+.card:hover::before{
+
+left:100%;
+
+}
+
+.btn{
+
+box-shadow:0 0 20px rgba(56,189,248,.35);
+
+}
+
+.btn:hover{
+
+box-shadow:0 0 30px rgba(56,189,248,.7);
+
+transform:translateY(-2px);
+
+}
+
+::-webkit-scrollbar{
+
+width:10px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+background:#38bdf8;
+
+border-radius:20px;
+
+}
+
+::-webkit-scrollbar-track{
+
+background:#0f172a;
+
+}
+
+</style>
+
+</body>
+</html>

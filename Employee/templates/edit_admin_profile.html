@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Edit Admin Profile</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",sans-serif;
+}
+
+body{
+    min-height:100vh;
+
+    background:
+    linear-gradient(rgba(15,23,42,.90),rgba(15,23,42,.97)),
+    url("https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=1600")
+    center/cover fixed no-repeat;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:30px 20px;
+}
+
+.card{
+
+    width:650px;
+    max-width:100%;
+
+    padding:38px;
+
+    background:rgba(255,255,255,.10);
+
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,.16);
+
+    border-radius:25px;
+
+    box-shadow:0 25px 55px rgba(0,0,0,.40);
+}
+
+.icon{
+
+    width:80px;
+    height:80px;
+
+    margin:0 auto 18px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:linear-gradient(135deg,#38bdf8,#6366f1);
+
+    color:white;
+
+    font-size:32px;
+}
+
+.header{
+
+    text-align:center;
+
+    margin-bottom:30px;
+}
+
+.header h1{
+
+    color:white;
+
+    font-size:30px;
+
+    margin-bottom:7px;
+}
+
+.header p{
+
+    color:#cbd5e1;
+}
+
+.row{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:18px;
+}
+
+.form-group{
+
+    margin-bottom:20px;
+}
+
+label{
+
+    display:block;
+
+    color:white;
+
+    font-weight:600;
+
+    margin-bottom:8px;
+}
+
+.input-box{
+
+    position:relative;
+}
+
+.input-box i{
+
+    position:absolute;
+
+    left:15px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    color:#38bdf8;
+}
+
+input{
+
+    width:100%;
+
+    padding:14px 15px 14px 45px;
+
+    border:none;
+
+    outline:none;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,.09);
+
+    border:1px solid rgba(255,255,255,.13);
+
+    color:white;
+
+    font-size:15px;
+
+}
+
+input:focus{
+
+    border-color:#38bdf8;
+
+    box-shadow:0 0 15px rgba(56,189,248,.22);
+}
+
+input::placeholder{
+
+    color:#94a3b8;
+}
+
+.buttons{
+
+    display:flex;
+
+    gap:13px;
+
+    margin-top:10px;
+}
+
+.btn{
+
+    flex:1;
+
+    padding:14px;
+
+    border-radius:11px;
+
+    text-align:center;
+
+    text-decoration:none;
+
+    border:none;
+
+    font-size:15px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+.save{
+
+    background:#38bdf8;
+
+    color:#0f172a;
+}
+
+.save:hover{
+
+    background:#0ea5e9;
+
+    color:white;
+}
+
+.back{
+
+    background:rgba(255,255,255,.10);
+
+    color:white;
+
+    border:1px solid rgba(255,255,255,.16);
+}
+
+.back:hover{
+
+    background:rgba(255,255,255,.18);
+}
+
+@media(max-width:600px){
+
+    .card{
+
+        padding:25px 20px;
+    }
+
+    .row{
+
+        grid-template-columns:1fr;
+    }
+
+    .buttons{
+
+        flex-direction:column;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<div class="header">
+
+<div class="icon">
+
+<i class="fa-solid fa-user-pen"></i>
+
+</div>
+
+<h1>Edit Admin Profile</h1>
+
+<p>Update your administrator account information</p>
+
+</div>
+
+
+<form method="POST">
+
+{% csrf_token %}
+
+
+<div class="row">
+
+
+<div class="form-group">
+
+<label>First Name</label>
+
+<div class="input-box">
+
+<i class="fa-solid fa-user"></i>
+
+<input
+type="text"
+name="first_name"
+value="{{ request.user.first_name }}"
+placeholder="Enter first name"
+required>
+
+</div>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Last Name</label>
+
+<div class="input-box">
+
+<i class="fa-solid fa-user"></i>
+
+<input
+type="text"
+name="last_name"
+value="{{ request.user.last_name }}"
+placeholder="Enter last name">
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<div class="form-group">
+
+<label>Username</label>
+
+<div class="input-box">
+
+<i class="fa-solid fa-at"></i>
+
+<input
+type="text"
+value="{{ request.user.username }}"
+readonly>
+
+</div>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Email Address</label>
+
+<div class="input-box">
+
+<i class="fa-solid fa-envelope"></i>
+
+<input
+type="email"
+name="email"
+value="{{ request.user.email }}"
+placeholder="Enter email address"
+required>
+
+</div>
+
+</div>
+
+
+<div class="buttons">
+
+<button
+type="submit"
+class="btn save">
+
+<i class="fa-solid fa-floppy-disk"></i>
+
+&nbsp; Save Changes
+
+</button>
+
+<a
+href="{% url 'admin_profile' %}"
+class="btn back">
+
+<i class="fa-solid fa-arrow-left"></i>
+
+&nbsp; Cancel
+
+</a>
+
+</div>
+
+
+</form>
+
+</div>
+
+</body>
+
+</html>

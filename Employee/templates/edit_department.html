@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Update Department</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+
+    min-height:100vh;
+
+    background:
+    linear-gradient(rgba(15,23,42,.84),rgba(15,23,42,.90)),
+    url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1600")
+    center/cover fixed no-repeat;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:40px 20px;
+}
+
+.form-card{
+
+    width:700px;
+    max-width:100%;
+
+    background:rgba(255,255,255,.12);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.18);
+
+    border-radius:25px;
+
+    padding:40px;
+
+    box-shadow:0 25px 60px rgba(0,0,0,.45);
+
+}
+
+.form-header{
+
+    text-align:center;
+    margin-bottom:35px;
+
+}
+
+.icon-box{
+
+    width:85px;
+    height:85px;
+
+    margin:0 auto 18px;
+
+    border-radius:50%;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:linear-gradient(
+        135deg,
+        #f59e0b,
+        #d97706
+    );
+
+    color:white;
+
+    font-size:38px;
+
+    box-shadow:0 0 30px rgba(245,158,11,.35);
+
+}
+
+.form-header h1{
+
+    color:white;
+    font-size:32px;
+    margin-bottom:8px;
+
+}
+
+.form-header p{
+
+    color:#cbd5e1;
+
+}
+
+.form-grid{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:22px;
+
+}
+
+.input-group{
+
+    display:flex;
+    flex-direction:column;
+
+}
+
+.input-group.full{
+
+    grid-column:1/-1;
+
+}
+
+.input-group label{
+
+    color:white;
+    font-weight:600;
+    margin-bottom:8px;
+
+}
+
+.input-box{
+
+    position:relative;
+
+}
+
+.input-box i{
+
+    position:absolute;
+
+    left:15px;
+    top:50%;
+
+    transform:translateY(-50%);
+
+    color:#38bdf8;
+
+}
+
+.input-box textarea + i{
+    top:20px;
+}
+
+.input-box input,
+.input-box textarea{
+
+    width:100%;
+
+    padding:14px 15px 14px 45px;
+
+    border:none;
+    outline:none;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,.10);
+
+    color:white;
+
+    border:1px solid rgba(255,255,255,.12);
+
+    font-size:15px;
+
+    transition:.3s;
+
+}
+
+.input-box textarea{
+
+    min-height:120px;
+
+    resize:vertical;
+
+}
+
+.input-box input:focus,
+.input-box textarea:focus{
+
+    border-color:#38bdf8;
+
+    box-shadow:0 0 15px rgba(56,189,248,.25);
+
+    background:rgba(255,255,255,.15);
+
+}
+
+.input-box input::placeholder,
+.input-box textarea::placeholder{
+
+    color:#cbd5e1;
+
+}
+
+.buttons{
+
+    display:flex;
+
+    gap:15px;
+
+    margin-top:30px;
+
+}
+
+.btn{
+
+    flex:1;
+
+    padding:14px;
+
+    border-radius:12px;
+
+    text-align:center;
+
+    text-decoration:none;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    border:none;
+
+    transition:.3s;
+
+}
+
+.update-btn{
+
+    background:#38bdf8;
+    color:#0f172a;
+
+}
+
+.update-btn:hover{
+
+    background:#0ea5e9;
+    color:white;
+
+    transform:translateY(-2px);
+
+}
+
+.back-btn{
+
+    background:rgba(255,255,255,.12);
+
+    color:white;
+
+    border:1px solid rgba(255,255,255,.2);
+
+}
+
+.back-btn:hover{
+
+    background:rgba(255,255,255,.2);
+
+    transform:translateY(-2px);
+
+}
+
+@media(max-width:650px){
+
+    .form-card{
+        padding:25px;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .input-group.full{
+        grid-column:auto;
+    }
+
+    .form-header h1{
+        font-size:26px;
+    }
+
+    .buttons{
+        flex-direction:column;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="form-card">
+
+<div class="form-header">
+
+<div class="icon-box">
+
+<i class="fa-solid fa-pen-to-square"></i>
+
+</div>
+
+<h1>Update Department</h1>
+
+<p>Update department information</p>
+
+</div>
+
+
+<form method="POST">
+
+{% csrf_token %}
+
+
+<div class="form-grid">
+
+
+<!-- Department Name -->
+
+<div class="input-group">
+
+<label>Department Name</label>
+
+<div class="input-box">
+
+<i class="fa-solid fa-building"></i>
+
+<input
+type="text"
+name="department_name"
+value="{{ department.department_name }}"
+placeholder="Enter department name"
+required>
+
+</div>
+
+</div>
+
+
+<!-- Department Code -->
+
+<div class="input-group">
+
+<label>Department Code</label>
+
+<div class="input-box">
+
+<i class="fa-solid fa-hashtag"></i>
+
+<input
+type="text"
+name="department_code"
+value="{{ department.department_code }}"
+placeholder="Enter department code"
+required>
+
+</div>
+
+</div>
+
+
+<!-- Department Head -->
+
+<div class="input-group">
+
+<label>Department Head</label>
+
+<div class="input-box">
+
+<i class="fa-solid fa-user-tie"></i>
+
+<input
+type="text"
+name="department_head"
+value="{{ department.department_head }}"
+placeholder="Enter department head"
+required>
+
+</div>
+
+</div>
+
+
+<!-- Description -->
+
+<div class="input-group full">
+
+<label>Department Description</label>
+
+<div class="input-box">
+
+<textarea
+name="description"
+placeholder="Enter department description">{{ department.description }}</textarea>
+
+<i class="fa-solid fa-align-left"></i>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<div class="buttons">
+
+
+<button
+type="submit"
+class="btn update-btn">
+
+<i class="fa-solid fa-floppy-disk"></i>
+
+&nbsp; Update Department
+
+</button>
+
+
+<a
+href="{% url 'view_department' %}"
+class="btn back-btn">
+
+<i class="fa-solid fa-arrow-left"></i>
+
+&nbsp; Back
+
+</a>
+
+
+</div>
+
+
+</form>
+
+</div>
+
+</body>
+</html>

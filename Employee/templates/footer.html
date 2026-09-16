@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Footer</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+.footer{
+    background:#111827;
+    color:#fff;
+    margin-top:80px;
+}
+
+.footer-container{
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:35px;
+    padding:60px 0;
+}
+
+.footer-box h3{
+    color:#38bdf8;
+    margin-bottom:18px;
+    font-size:24px;
+}
+
+.footer-box p{
+    color:#d1d5db;
+    line-height:28px;
+    font-size:16px;
+}
+
+.footer-box a{
+    display:block;
+    color:#d1d5db;
+    text-decoration:none;
+    margin:10px 0;
+    transition:.3s;
+}
+
+.footer-box a:hover{
+    color:#38bdf8;
+    padding-left:8px;
+}
+
+.social-icons{
+    display:flex;
+    gap:12px;
+    margin-top:15px;
+}
+
+.social-icons a{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:#1e293b;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#fff;
+    font-size:20px;
+    transition:.3s;
+}
+
+.social-icons a:hover{
+    background:#38bdf8;
+    color:#111827;
+    transform:translateY(-5px);
+}
+
+.copy{
+    background:#0f172a;
+    text-align:center;
+    padding:18px;
+    color:#d1d5db;
+    font-size:15px;
+}
+
+@media(max-width:768px){
+
+.footer{
+    text-align:center;
+}
+
+.social-icons{
+    justify-content:center;
+}
+
+.footer-box a:hover{
+    padding-left:0;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="footer">
+
+<div class="footer-container">
+
+<div class="footer-box">
+<h3>Employee Management</h3>
+<p>
+Employee Management System helps organizations manage employee records efficiently,
+securely and professionally.
+</p>
+</div>
+
+<div class="footer-box">
+<h3>Quick Links</h3>
+
+<a href="{% url 'home' %}">Home</a>
+<a href="{% url 'employee_login' %}">Employee Login</a>
+<a href="{% url 'admin_login' %}">Admin Login</a>
+<a href="{% url 'contact' %}">Contact</a>
+<a href="{% url 'register' %}">Register</a>
+
+</div>
+
+<div class="footer-box">
+<h3>Contact Us</h3>
+
+<p><i class="fa-solid fa-envelope"></i> mohitspt@gmail.com</p>
+
+<p><i class="fa-solid fa-phone"></i> +91 6388806017</p>
+
+<p><i class="fa-solid fa-location-dot"></i> Uttar Pradesh, India</p>
+
+</div>
+
+<div class="footer-box">
+
+<h3>Follow Us</h3>
+
+<div class="social-icons">
+
+<a href="https://www.facebook.com/share/1HQ5Qj5tYK/" target="_blank">
+<i class="fab fa-facebook-f"></i>
+</a>
+
+<a href="https://www.instagram.com/star_jiddi?igsh=bGs2bTM4cWRpODE2" target="_blank">
+<i class="fab fa-instagram"></i>
+</a>
+
+<a href="https://x.com/STAR_JIDDI" target="_blank">
+<i class="fab fa-x-twitter"></i>
+</a>
+
+<a href="https://youtube.com/@rkt8115?si=dpUztSmwhkQgWrrH" target="_blank">
+<i class="fab fa-youtube"></i>
+</a>
+
+<a href="https://www.linkedin.com/in/mohit-kumar-80b372377" target="_blank">
+<i class="fab fa-linkedin-in"></i>
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="copy">
+© 2026 Employee Management System | All Rights Reserved
+</div>
+
+</div>
+
+</body>
+</html>

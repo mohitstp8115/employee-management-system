@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Contact Support</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",sans-serif;
+}
+
+body{
+
+    min-height:100vh;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+    linear-gradient(
+        rgba(15,23,42,.93),
+        rgba(15,23,42,.97)
+    );
+
+    color:white;
+
+    padding:25px;
+}
+
+.container{
+
+    width:100%;
+    max-width:650px;
+}
+
+.card{
+
+    background:rgba(255,255,255,.10);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    border-radius:22px;
+
+    padding:32px;
+
+    box-shadow:0 25px 50px rgba(0,0,0,.35);
+
+    backdrop-filter:blur(18px);
+}
+
+.header{
+
+    text-align:center;
+
+    margin-bottom:28px;
+}
+
+.icon{
+
+    width:62px;
+    height:62px;
+
+    margin:0 auto 15px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:17px;
+
+    background:rgba(56,189,248,.15);
+
+    color:#38bdf8;
+
+    font-size:26px;
+}
+
+h1{
+
+    font-size:30px;
+
+    margin-bottom:7px;
+}
+
+.header p{
+
+    color:#94a3b8;
+
+    font-size:14px;
+}
+
+.success{
+
+    background:rgba(34,197,94,.14);
+
+    color:#4ade80;
+
+    padding:13px;
+
+    border-radius:10px;
+
+    text-align:center;
+
+    margin-bottom:20px;
+}
+
+.form-group{
+
+    margin-bottom:19px;
+}
+
+label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    font-weight:600;
+}
+
+label i{
+
+    color:#38bdf8;
+
+    margin-right:6px;
+}
+
+input,
+textarea{
+
+    width:100%;
+
+    padding:14px;
+
+    border-radius:10px;
+
+    border:1px solid rgba(255,255,255,.15);
+
+    background:rgba(255,255,255,.08);
+
+    color:white;
+
+    outline:none;
+
+    font-size:14px;
+}
+
+input:focus,
+textarea:focus{
+
+    border-color:#38bdf8;
+
+    box-shadow:0 0 12px rgba(56,189,248,.15);
+}
+
+textarea{
+
+    min-height:140px;
+
+    resize:vertical;
+}
+
+input::placeholder,
+textarea::placeholder{
+
+    color:#94a3b8;
+}
+
+.actions{
+
+    display:flex;
+
+    gap:12px;
+
+    margin-top:25px;
+}
+
+button,
+.back{
+
+    flex:1;
+
+    padding:14px;
+
+    border-radius:10px;
+
+    text-align:center;
+
+    text-decoration:none;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+button{
+
+    border:none;
+
+    background:#38bdf8;
+
+    color:#0f172a;
+}
+
+button:hover{
+
+    background:#0ea5e9;
+
+    color:white;
+}
+
+.back{
+
+    background:rgba(255,255,255,.08);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    color:white;
+}
+
+.back:hover{
+
+    background:rgba(255,255,255,.15);
+}
+
+@media(max-width:600px){
+
+    .card{
+        padding:23px;
+    }
+
+    .actions{
+        flex-direction:column;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<div class="header">
+
+<div class="icon">
+
+<i class="fa-solid fa-headset"></i>
+
+</div>
+
+<h1>Contact Support</h1>
+
+<p>
+Have a question or need help? Send a message to Admin.
+</p>
+
+</div>
+
+
+{% if message_sent %}
+
+<div class="success">
+
+<i class="fa-solid fa-circle-check"></i>
+
+&nbsp; Your request has been sent to Admin successfully.
+
+</div>
+
+{% endif %}
+
+
+<form method="POST">
+
+{% csrf_token %}
+
+
+<div class="form-group">
+
+<label>
+
+<i class="fa-solid fa-user"></i>
+
+Name
+
+</label>
+
+<input
+type="text"
+name="name"
+value="{{ employee.name|default:'' }}"
+placeholder="Enter your name"
+required>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+
+<i class="fa-solid fa-envelope"></i>
+
+Email
+
+</label>
+
+<input
+type="email"
+name="email"
+value="{{ employee.email|default:'' }}"
+placeholder="Enter your email"
+required>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+
+<i class="fa-solid fa-message"></i>
+
+Message
+
+</label>
+
+<textarea
+name="message"
+placeholder="Write your message..."
+required></textarea>
+
+</div>
+
+
+<div class="actions">
+
+<button type="submit">
+
+<i class="fa-solid fa-paper-plane"></i>
+
+&nbsp; Send Message
+
+</button>
+
+
+<a
+href="{% url 'employee_home' %}"
+class="back">
+
+<i class="fa-solid fa-arrow-left"></i>
+
+&nbsp; Back
+
+</a>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

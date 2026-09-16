@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Delete Attendance</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:20px;
+
+    background:
+    linear-gradient(
+        rgba(15,23,42,.88),
+        rgba(15,23,42,.95)
+    ),
+    url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1600")
+    center/cover fixed no-repeat;
+
+}
+
+.card{
+
+    width:500px;
+    max-width:100%;
+
+    padding:40px;
+
+    text-align:center;
+
+    background:rgba(255,255,255,.11);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.18);
+
+    border-radius:25px;
+
+    box-shadow:0 25px 60px rgba(0,0,0,.45);
+
+}
+
+.icon{
+
+    width:85px;
+    height:85px;
+
+    margin:0 auto 20px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:rgba(239,68,68,.15);
+
+    color:#f87171;
+
+    font-size:38px;
+
+}
+
+h1{
+
+    color:white;
+
+    margin-bottom:12px;
+
+}
+
+.message{
+
+    color:#cbd5e1;
+
+    line-height:1.6;
+
+}
+
+.details{
+
+    margin:25px 0;
+
+    padding:20px;
+
+    border-radius:15px;
+
+    background:rgba(255,255,255,.08);
+
+    border:1px solid rgba(255,255,255,.10);
+
+}
+
+.details h3{
+
+    color:white;
+
+    margin-bottom:8px;
+
+}
+
+.details p{
+
+    color:#38bdf8;
+
+    margin:5px;
+
+}
+
+.status{
+
+    font-weight:bold;
+
+}
+
+.buttons{
+
+    display:flex;
+
+    gap:15px;
+
+    margin-top:25px;
+
+}
+
+.btn{
+
+    flex:1;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:11px;
+
+    text-decoration:none;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+}
+
+.delete{
+
+    background:#ef4444;
+
+    color:white;
+
+}
+
+.delete:hover{
+
+    background:#dc2626;
+
+}
+
+.cancel{
+
+    background:rgba(255,255,255,.12);
+
+    color:white;
+
+    border:1px solid rgba(255,255,255,.18);
+
+}
+
+.cancel:hover{
+
+    background:rgba(255,255,255,.20);
+
+}
+
+@media(max-width:550px){
+
+    .card{
+
+        padding:28px 20px;
+
+    }
+
+    .buttons{
+
+        flex-direction:column;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<div class="icon">
+
+🗑️
+
+</div>
+
+<h1>Delete Attendance?</h1>
+
+<p class="message">
+
+Are you sure you want to delete this attendance record?
+
+This action cannot be undone.
+
+</p>
+
+
+<div class="details">
+
+<h3>
+
+{{ attendance.employee.name }}
+
+</h3>
+
+<p>
+
+📅 {{ attendance.date }}
+
+</p>
+
+<p class="status">
+
+{{ attendance.status }}
+
+</p>
+
+</div>
+
+
+<form method="POST">
+
+{% csrf_token %}
+
+<div class="buttons">
+
+<button
+type="submit"
+class="btn delete">
+
+Delete Attendance
+
+</button>
+
+<a
+href="{% url 'view_attendance' %}"
+class="btn cancel">
+
+Cancel
+
+</a>
+
+</div>
+
+</form>
+
+</div>
+
+</body>
+
+</html>
