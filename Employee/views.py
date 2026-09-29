@@ -17,6 +17,7 @@ from reportlab.lib import colors
 from datetime import date
 from django.db import models
 from django.contrib.auth.models import User
+from django.views.decorations.chache impport never_cache
 
 
 # =========================
