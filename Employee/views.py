@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.db.models import Q
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.decorators import login_required
+from functools import wraps
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from reportlab.lib.colors import HexColor
@@ -17,6 +17,46 @@ from reportlab.lib import colors
 from datetime import date
 from django.db import models
 from django.contrib.auth.models import User
+
+
+# =========================
+# SESSION / ACCESS CONTROL
+# =========================
+
+def admin_required(view_func):
+    """
+    Only authenticated Django superusers can access admin pages.
+    """
+    @wraps(view_func)
+    def wrapper(request, *args, **kwargs):
+        if not request.user.is_authenticated or not request.user.is_superuser:
+            return redirect("admin_login")
+        return view_func(request, *args, **kwargs)
+
+    return wrapper
+
+
+def employee_required(view_func):
+    """
+    Only logged-in employees can access employee pages.
+    """
+    @wraps(view_func)
+    def wrapper(request, *args, **kwargs):
+        emp_id = request.session.get("emp_id")
+
+        if not emp_id:
+            return redirect("employee_login")
+
+        try:
+            Employee.objects.get(id=emp_id)
+        except Employee.DoesNotExist:
+            request.session.flush()
+            return redirect("employee_login")
+
+        return view_func(request, *args, **kwargs)
+
+    return wrapper
+
 
 # Create your views here.
 
@@ -41,9 +81,11 @@ def admin_login(request):
 
     return render(request, "admin_login.html")
 
+@admin_required
 def admin_home(request):
     return render(request,"admin_home.html")
 
+@admin_required
 def employee_management(request):
     return render(request,"employee_management.html")
 
@@ -51,6 +93,7 @@ def employee_management(request):
 # DEPARTMENT MANAGEMENT
 
 
+@admin_required
 def department_management(request):
     departments = Department.objects.all()
 
@@ -65,6 +108,7 @@ def department_management(request):
 # ADD DEPARTMENT
 # =========================
 
+@admin_required
 def add_department(request):
 
     if request.method == "POST":
@@ -90,6 +134,7 @@ def add_department(request):
 # VIEW DEPARTMENT
 # =========================
 
+@admin_required
 def view_department(request):
 
     departments = Department.objects.all()
@@ -105,6 +150,7 @@ def view_department(request):
 # EDIT / UPDATE DEPARTMENT
 # =========================
 
+@admin_required
 def edit_department(request, id):
 
     department = get_object_or_404(Department, id=id)
@@ -131,6 +177,7 @@ def edit_department(request, id):
 # DELETE DEPARTMENT
 # =========================
 
+@admin_required
 def delete_department(request, id):
 
     department = get_object_or_404(Department, id=id)
@@ -144,6 +191,7 @@ def delete_department(request, id):
 # SEARCH DEPARTMENT
 # =========================
 
+@admin_required
 def search_department(request):
 
     query = request.GET.get("q", "")
@@ -165,6 +213,7 @@ def search_department(request):
         }
     )
 
+@admin_required
 def salary_management(request):
     salaries = Salary.objects.all()
 
@@ -172,6 +221,7 @@ def salary_management(request):
         "salaries": salaries
     })
 
+@admin_required
 def add_salary(request):
 
     employees = Employee.objects.all()
@@ -201,6 +251,7 @@ def add_salary(request):
         "employees": employees
     })
 
+@admin_required
 def view_salary(request):
     salaries = Salary.objects.select_related("employee").all()
 
@@ -218,6 +269,7 @@ def view_salary(request):
         "query": query
     })
 
+@admin_required
 def edit_salary(request, id):
 
     salary = get_object_or_404(Salary, id=id)
@@ -254,6 +306,7 @@ def edit_salary(request, id):
         }
     )
 
+@admin_required
 def delete_salary(request, id):
     salary = get_object_or_404(Salary, id=id)
 
@@ -270,6 +323,7 @@ def delete_salary(request, id):
 
 
 
+@admin_required
 def view_employee(request):
     search = request.GET.get("search")
 
@@ -287,6 +341,7 @@ def view_employee(request):
         "employees": employees
     })
 
+@admin_required
 def attendance_management(request):
 
     attendances = Attendance.objects.all()
@@ -300,6 +355,7 @@ def attendance_management(request):
     )
 
 
+@admin_required
 def mark_attendance(request):
 
     employees = Employee.objects.all()
@@ -367,6 +423,7 @@ def mark_attendance(request):
     )
 
 
+@admin_required
 def view_attendance(request):
 
     attendances = Attendance.objects.select_related("employee").all()
@@ -390,6 +447,7 @@ def view_attendance(request):
         }
     )
 
+@admin_required
 def edit_attendance(request, id):
 
     attendance = get_object_or_404(Attendance, id=id)
@@ -426,6 +484,7 @@ def edit_attendance(request, id):
         }
     )
 
+@admin_required
 def delete_attendance(request, id):
 
     attendance = get_object_or_404(
@@ -447,9 +506,11 @@ def delete_attendance(request, id):
 
 
 
+@admin_required
 def delete_employee(request):
     return render(request,"delete_employee.html")
 
+@admin_required
 def edit_employee(request, id):
     employee = get_object_or_404(Employee, id=id)
     salary = get_object_or_404(Salary, employee=employee)
@@ -567,15 +628,18 @@ def register(request):
 
     return render(request, "register.html")
 
+@employee_required
 def employee_home(request):
     return render(request,"employee_home.html")
 
+@employee_required
 def my_profile(request):
     emp = Employee.objects.get(id=request.session['emp_id'])
     salary = Salary.objects.filter(employee=emp).first()
 
     return render(request, "my_profile.html",{"employee": emp,"salary": salary})
 
+@employee_required
 def edit_profile(request):
 
     emp = Employee.objects.get(id=request.session['emp_id'])
@@ -594,6 +658,7 @@ def edit_profile(request):
 
     return render(request, "edit_profile.html", {"employee": emp})
 
+@employee_required
 def salary(request):
     emp = Employee.objects.get(id=request.session['emp_id'])
     salary = Salary.objects.filter(employee=emp).first()
@@ -601,6 +666,7 @@ def salary(request):
 
 
 
+@employee_required
 def download_payslip(request):
 
     emp = Employee.objects.get(id=request.session['emp_id'])
@@ -713,6 +779,7 @@ def logout_admin(request):
 
 
 
+@admin_required
 def leave_management(request):
 
     leaves = Leave.objects.all()
@@ -726,6 +793,7 @@ def leave_management(request):
     )
 
 
+@admin_required
 def add_leave(request):
 
     employees = Employee.objects.all()
@@ -762,6 +830,7 @@ def add_leave(request):
         }
     )
 
+@admin_required
 def view_leave(request):
 
     leaves = Leave.objects.select_related("employee").all()
@@ -785,6 +854,7 @@ def view_leave(request):
         }
     )
 
+@admin_required
 def edit_leave(request, id):
 
     leave = get_object_or_404(Leave, id=id)
@@ -812,6 +882,7 @@ def edit_leave(request, id):
         }
     )
 
+@admin_required
 def delete_leave(request, id):
 
     leave = get_object_or_404(
@@ -831,6 +902,7 @@ def delete_leave(request, id):
         }
     )
 
+@admin_required
 def approve_leave(request, id):
 
     leave = get_object_or_404(Leave, id=id)
@@ -841,6 +913,7 @@ def approve_leave(request, id):
     return redirect("view_leave")
 
 
+@admin_required
 def reject_leave(request, id):
 
     leave = get_object_or_404(Leave, id=id)
@@ -850,6 +923,7 @@ def reject_leave(request, id):
 
     return redirect("view_leave")
 
+@admin_required
 def reports(request):
 
     context = {
@@ -890,7 +964,8 @@ def reports(request):
         context
     )
 
-@login_required
+@admin_required
+@admin_required
 def admin_profile(request):
 
     return render(
@@ -899,7 +974,8 @@ def admin_profile(request):
     )
 
 
-@login_required
+@admin_required
+@admin_required
 def edit_admin_profile(request):
 
     if request.method == "POST":
@@ -925,7 +1001,8 @@ def edit_admin_profile(request):
     )
 
 
-@login_required
+@admin_required
+@admin_required
 def change_admin_password(request):
 
     if request.method == "POST":
@@ -965,7 +1042,8 @@ def change_admin_password(request):
         }
     )
 
-@login_required
+@admin_required
+@admin_required
 def admin_settings(request):
 
     if request.method == "POST":
@@ -983,7 +1061,8 @@ def admin_settings(request):
     )
 
 
-@login_required
+@admin_required
+@admin_required
 def admin_support(request):
 
     if request.method == "POST":
@@ -1007,7 +1086,8 @@ def admin_support(request):
         "admin_support.html"
     )
 
-@login_required
+@admin_required
+@admin_required
 def support_requests(request):
 
     requests = SupportRequest.objects.all().order_by("-created_at")
@@ -1029,7 +1109,8 @@ def support_requests(request):
             "resolved_count": resolved_count,
         }
     )
-@login_required
+@admin_required
+@admin_required
 def resolve_support(request, id):
 
     support = get_object_or_404(
@@ -1048,7 +1129,8 @@ def resolve_support(request, id):
     return redirect("support_requests")
 
 
-@login_required
+@admin_required
+@admin_required
 def delete_support(request, id):
 
     support = get_object_or_404(
@@ -1065,7 +1147,8 @@ def delete_support(request, id):
 
     return redirect("support_requests")
 
-@login_required
+@admin_required
+@admin_required
 def performance_management(request):
 
     performances = Performance.objects.select_related(
@@ -1080,7 +1163,8 @@ def performance_management(request):
         }
     )
 
-@login_required
+@admin_required
+@admin_required
 def add_performance(request):
 
     if request.method == "POST":
@@ -1111,7 +1195,8 @@ def add_performance(request):
         }
     )
 
-@login_required
+@admin_required
+@admin_required
 def edit_performance(request, id):
 
     performance = get_object_or_404(
@@ -1139,7 +1224,8 @@ def edit_performance(request, id):
         }
     )
 
-@login_required
+@admin_required
+@admin_required
 def delete_performance(request, id):
 
     performance = get_object_or_404(
@@ -1151,6 +1237,7 @@ def delete_performance(request, id):
 
     return redirect("performance_management")
 
+@employee_required
 def employee_attendance(request):
     emp_id = request.session.get("emp_id")
 
@@ -1172,6 +1259,7 @@ def employee_attendance(request):
         }
     )
 
+@employee_required
 def employee_leave(request):
 
     emp_id = request.session.get("emp_id")
@@ -1212,6 +1300,7 @@ def employee_leave(request):
         }
     )
 
+@employee_required
 def employee_documents(request):
 
     emp_id = request.session.get("emp_id")
@@ -1248,6 +1337,7 @@ def employee_documents(request):
         }
     )
 
+@employee_required
 def employee_notifications(request):
 
     emp_id = request.session.get("emp_id")
@@ -1276,6 +1366,7 @@ def employee_notifications(request):
 
 
 
+@employee_required
 def employee_support(request):
 
     emp_id = request.session.get("emp_id")
@@ -1313,6 +1404,7 @@ def employee_support(request):
     )
 
 
+@admin_required
 def admin_documents(request):
 
     documents = Document.objects.select_related(
@@ -1328,6 +1420,7 @@ def admin_documents(request):
     )
 
 
+@admin_required
 def admin_notifications(request):
 
     if request.method == "POST":
@@ -1361,6 +1454,7 @@ def admin_notifications(request):
         }
     )
 
+@employee_required
 def employee_change_password(request):
 
     emp_id = request.session.get("emp_id")
