@@ -39,10 +39,10 @@ def admin_required(view_func):
         return view_func(request, *args, **kwargs)
 
     return wrapper
-    
+@never_cache   
 def employee_required(view_func):
     @wraps(view_func)
-    @never_cache
+    
     def wrapper(request, *args, **kwargs):
         emp_id = request.session.get("emp_id")
 
