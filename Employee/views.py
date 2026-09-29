@@ -24,14 +24,21 @@ from django.views.decorations.chache impport never_cache
 # SESSION / ACCESS CONTROL
 # =========================
 
-def admin_required(view_func):
-    """
-    Only authenticated Django superusers can access admin pages.
-    """
+def employee_required(view_func):
     @wraps(view_func)
+    @never_cache
     def wrapper(request, *args, **kwargs):
-        if not request.user.is_authenticated or not request.user.is_superuser:
-            return redirect("admin_login")
+        emp_id = request.session.get("emp_id")
+
+        if not emp_id:
+            return redirect("employee_login")
+
+        try:
+            Employee.objects.get(id=emp_id)
+        except Employee.DoesNotExist:
+            request.session.flush()
+            return redirect("employee_login")
+
         return view_func(request, *args, **kwargs)
 
     return wrapper
@@ -760,9 +767,16 @@ def logout(request):
     request.session.flush()   # Session delete
     return redirect("employee_login")
 
+@never_cache
 def logout_admin(request):
-    request.session.flush()   
+    request.session.flush()
     return redirect("admin_login")
+
+
+@never_cache
+def logout(request):
+    request.session.flush()
+    return redirect("employee_login")
 
 
 
