@@ -44,20 +44,18 @@ from datetime import date
 
 def admin_required(view_func):
     """
-    Only authenticated Django superusers can access admin pages.
-    Also prevents browser caching after logout.
+    Allow only authenticated Django superusers to access admin pages.
+    The @never_cache decorator prevents protected pages from being shown
+    from the browser cache after logout.
     """
-
     @wraps(view_func)
     @never_cache
     def wrapper(request, *args, **kwargs):
-
-        # User is not logged in
         if not request.user.is_authenticated:
             return redirect("admin_login")
 
-        # User is logged in but is not superuser
         if not request.user.is_superuser:
+            django_logout(request)
             return redirect("admin_login")
 
         return view_func(request, *args, **kwargs)
