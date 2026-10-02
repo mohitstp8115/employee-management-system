@@ -195,10 +195,7 @@ def edit_employee(request, id):
 
     employee = get_object_or_404(Employee, id=id)
 
-    salary = get_object_or_404(
-        Salary,
-        employee=employee
-    )
+    salary = Salary.objects.filter(employee=employee).first()
 
     if request.method == "POST":
 
@@ -211,10 +208,24 @@ def edit_employee(request, id):
 
         employee.save()
 
-        salary.basic_salary = request.POST.get("salary")
-        salary.total_salary = salary.basic_salary
+        salary_value = int(request.POST.get("salary") or 0)
 
-        salary.save()
+        if salary is None:
+            Salary.objects.create(
+                employee=employee,
+                basic_salary=salary_value,
+                bonus=0,
+                deduction=0,
+                total_salary=salary_value
+            )
+        else:
+            salary.basic_salary = salary_value
+            salary.total_salary = (
+                salary.basic_salary
+                + (salary.bonus or 0)
+                - (salary.deduction or 0)
+            )
+            salary.save()
 
         return redirect("view_employee")
 
@@ -736,6 +747,11 @@ def register(request):
         joindate = request.POST.get("joindate")
         phone = request.POST.get("phone")
 
+        try:
+            salary_value = int(request.POST.get("salary") or 0)
+        except (TypeError, ValueError):
+            salary_value = 0
+
         if Employee.objects.filter(
             email=email
         ).exists():
@@ -764,16 +780,16 @@ def register(request):
             username=username,
             password=password,
             department=department,
-            joindate=joindate,
+            joindate=joindate or None,
             phone=phone
         )
 
         Salary.objects.create(
             employee=emp,
-            basic_salary=salary,
+            basic_salary=salary_value,
             bonus=0,
             deduction=0,
-            total_salary=salary
+            total_salary=salary_value
         )
 
         return redirect(
@@ -962,9 +978,13 @@ def download_payslip(request):
         id=request.session["emp_id"]
     )
 
-    sal = Salary.objects.get(
+    sal = Salary.objects.filter(
         employee=emp
-    )
+    ).order_by("-id").first()
+
+    if sal is None:
+        messages.error(request, "Salary record not found.")
+        return redirect("salary")
 
     response = HttpResponse(
         content_type="application/pdf"
@@ -1300,6 +1320,12 @@ def logout_employee(request):
     return redirect(
         "employee_login"
     )
+
+
+# Backward-compatible URL name.
+# If urls.py contains path("logout", logout, name="logout"),
+# this points to the admin logout view instead of raising NameError.
+logout = logout_admin
 
 
 # ============================================================
